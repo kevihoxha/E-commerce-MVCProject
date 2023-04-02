@@ -1,6 +1,7 @@
 
 
 using eTickets.Data;
+using eTickets.Data.Card;
 using eTickets.Data.Services;
 using eTickets.Models.Data;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 //Services Config. 
@@ -16,6 +19,12 @@ builder.Services.AddScoped<IActorsService, ActorsService>();
 builder.Services.AddScoped<IProducersService, ProducersService>();
 builder.Services.AddScoped<ICinemasService, CinemasService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
+builder.Services.AddScoped<IOrdersService, OrdersService>();
+
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(sc=>ShoppingCard.GetShoppingCard(sc));
+builder.Services.AddSession();
 var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -30,6 +39,7 @@ var app = builder.Build();
     app.UseStaticFiles();
 
     app.UseRouting();
+app.UseSession();
 
     app.UseAuthorization();
 
