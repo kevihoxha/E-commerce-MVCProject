@@ -1,4 +1,4 @@
-﻿using eTickets.Data.Base;
+﻿ using eTickets.Data.Base;
 using eTickets.Data.ViewModels;
 using eTickets.Models;
 using eTickets.Models.Data;
